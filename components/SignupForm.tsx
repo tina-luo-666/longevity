@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CheckCircle, Loader2, Users, Shield } from "lucide-react";
+import { CheckCircle, Loader2, Users, Shield, AlertCircle } from "lucide-react";
 import { AGE_RANGES, INTEREST_OPTIONS } from "@/lib/constants";
 import { fadeInUp, staggerContainer, staggerItem } from "@/lib/animations";
+import { submitSignup, checkEmailExists } from "@/lib/supabase";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -22,6 +23,7 @@ type SignupFormData = z.infer<typeof signupSchema>;
 export default function SignupForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -34,17 +36,45 @@ export default function SignupForm() {
 
   const onSubmit = async (data: SignupFormData) => {
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      // Check if email already exists
+      const emailExists = await checkEmailExists(data.email);
+      if (emailExists) {
+        setSubmitError(
+          "This email is already registered. Please use a different email address."
+        );
+        setIsSubmitting(false);
+        return;
+      }
 
-    console.log("Form data:", data);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    reset();
+      // Submit the signup data to Supabase
+      const result = await submitSignup({
+        name: data.name,
+        email: data.email,
+        location: data.location,
+        age_range: data.ageRange || undefined,
+        interested_in: data.interestedIn,
+      });
 
-    // In a real app, you would send this data to your backend
-    // Example: await submitSignup(data)
+      if (result.success) {
+        setIsSubmitted(true);
+        reset();
+        console.log("Signup successful:", result.data);
+      } else {
+        setSubmitError(
+          result.error || "An unexpected error occurred. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setSubmitError(
+        "Something went wrong. Please check your connection and try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -80,7 +110,10 @@ export default function SignupForm() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsSubmitted(false)}
+              onClick={() => {
+                setIsSubmitted(false);
+                setSubmitError(null);
+              }}
               className="btn-primary"
             >
               Submit Another Response
@@ -127,6 +160,17 @@ export default function SignupForm() {
           className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-white/20"
         >
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Error Display */}
+            {submitError && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 flex items-center space-x-3"
+              >
+                <AlertCircle className="w-5 h-5 text-red-300 flex-shrink-0" />
+                <p className="text-red-200 text-sm">{submitError}</p>
+              </motion.div>
+            )}
             {/* Name */}
             <motion.div variants={staggerItem}>
               <label
