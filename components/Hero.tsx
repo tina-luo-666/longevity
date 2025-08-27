@@ -186,7 +186,7 @@ export default function Hero() {
               whileTap={{ scale: 0.98 }}
               className="glass border border-primary-300/30 text-primary-100 hover:text-white font-medium py-4 px-8 rounded-xl text-lg hover:bg-primary-600/20 transition-all duration-300"
             >
-              I'm open to a 15-min research chat
+              I&rsquo;m open to a 15-min research chat
             </motion.button>
           </motion.div>
 

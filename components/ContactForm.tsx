@@ -86,7 +86,7 @@ export default function ContactForm() {
                 Get in Touch
               </h3>
               <p className="text-medium-gray text-lg leading-relaxed mb-8">
-                We'd love to hear from you. Send us a message and we'll respond
+                We&rsquo;d love to hear from you. Send us a message and we&rsquo;ll respond
                 as soon as possible. Our team typically responds within 24
                 hours.
               </p>
@@ -104,7 +104,7 @@ export default function ContactForm() {
                   <h4 className="font-semibold text-charcoal mb-1">Email Us</h4>
                   <p className="text-medium-gray">{COMPANY_INFO.email}</p>
                   <p className="text-sm text-medium-gray mt-1">
-                    We'll get back to you within 24 hours
+                    We&rsquo;ll get back to you within 24 hours
                   </p>
                 </div>
               </motion.div>
@@ -171,7 +171,7 @@ export default function ContactForm() {
                   Message Sent!
                 </h3>
                 <p className="text-medium-gray">
-                  Thank you for reaching out. We'll get back to you soon.
+                  Thank you for reaching out. We&rsquo;ll get back to you soon.
                 </p>
               </motion.div>
             ) : (

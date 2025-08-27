@@ -103,7 +103,7 @@ export default function SignupForm() {
               Welcome to the Future of Health!
             </h3>
             <p className="text-lg text-medium-gray mb-8">
-              Thank you for joining our early access program. We'll be in touch
+              Thank you for joining our early access program. We&rsquo;ll be in touch
               soon with next steps.
             </p>
 
@@ -148,7 +148,7 @@ export default function SignupForm() {
             className="text-xl text-white/90 max-w-3xl mx-auto"
           >
             Get early access and (optional) invite to a short research
-            interview. We'll only email you about launch and pilot availability.
+            interview. We&rsquo;ll only email you about launch and pilot availability.
           </motion.p>
         </motion.div>
 
