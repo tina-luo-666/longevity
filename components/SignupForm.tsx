@@ -103,8 +103,8 @@ export default function SignupForm() {
               Welcome to the Future of Health!
             </h3>
             <p className="text-lg text-medium-gray mb-8">
-              Thank you for joining our early access program. We&rsquo;ll be in touch
-              soon with next steps.
+              Thank you for joining our early access program. We&rsquo;ll be in
+              touch soon with next steps.
             </p>
 
             <motion.button
@@ -148,7 +148,8 @@ export default function SignupForm() {
             className="text-xl text-white/90 max-w-3xl mx-auto"
           >
             Get early access and (optional) invite to a short research
-            interview. We&rsquo;ll only email you about launch and pilot availability.
+            interview. We&rsquo;ll only email you about launch and pilot
+            availability.
           </motion.p>
         </motion.div>
 
@@ -316,15 +317,6 @@ export default function SignupForm() {
                 )}
               </motion.button>
             </motion.div>
-
-            {/* Privacy Text */}
-            <motion.p
-              variants={staggerItem}
-              className="text-center text-white/70 text-sm flex items-center justify-center space-x-2"
-            >
-              <Shield className="w-4 h-4" />
-              <span>We never sell your data. Unsubscribe anytime.</span>
-            </motion.p>
           </form>
         </motion.div>
 

@@ -45,3 +45,4 @@ The component gracefully handles:
 - Missing video files
 
 When videos fail to load, the component falls back to the existing gradient background.
+

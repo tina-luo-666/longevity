@@ -42,7 +42,7 @@ export async function submitSignup(
     return { success: true, data: result };
   } catch (error) {
     // Log error in development only
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.error("Error submitting signup:", error);
     }
     return {
@@ -70,7 +70,7 @@ export async function checkEmailExists(email: string) {
     return !!data;
   } catch (error) {
     // Log error in development only
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.error("Error checking email:", error);
     }
     return false;
@@ -91,7 +91,7 @@ export async function getSignupStats() {
     return { success: true, count: count || 0 };
   } catch (error) {
     // Log error in development only
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.error("Error getting signup stats:", error);
     }
     return { success: false, count: 0 };

@@ -94,18 +94,9 @@ export default function SolutionSection() {
                     <h3 className="text-2xl font-bold text-neutral-100 mb-4 group-hover:text-sage-400 transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-neutral-300 leading-relaxed mb-6">
+                    <p className="text-neutral-300 leading-relaxed">
                       {step.description}
                     </p>
-
-                    {/* Learn more link */}
-                    <motion.button
-                      whileHover={{ x: 5 }}
-                      className="inline-flex items-center text-sage-400 font-semibold hover:text-sage-300 transition-colors"
-                    >
-                      Learn more
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </motion.button>
                   </div>
                 </motion.div>
               );

@@ -125,7 +125,16 @@ export const FAQ_ITEMS = [
   },
 ];
 
-export const AGE_RANGES = ["45-54", "55-64", "65-74", "75-84"];
+export const AGE_RANGES = [
+  "<14",
+  "15-24",
+  "25-44",
+  "45-54",
+  "55-64",
+  "65-74",
+  "75-84",
+  "85+",
+];
 
 export const FEATURE_BULLETS = [
   {

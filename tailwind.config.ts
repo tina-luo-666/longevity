@@ -67,7 +67,8 @@ const config: Config = {
           "Playfair Display",
           "Crimson Text",
           "Inter",
-          "system-ui",
+          "Georgia",
+          "Times New Roman",
           "serif",
         ],
         heading: [
@@ -75,10 +76,20 @@ const config: Config = {
           "Playfair Display",
           "Crimson Text",
           "Inter",
-          "system-ui",
+          "Georgia",
+          "Times New Roman",
           "serif",
         ],
-        seasons: ["The Seasons", "Playfair Display", "Crimson Text", "serif"],
+        seasons: [
+          "The Seasons",
+          "Playfair Display",
+          "Crimson Text",
+          "Georgia",
+          "Times New Roman",
+          "serif",
+        ],
+        // PDF-safe font stack
+        print: ["Playfair Display", "Georgia", "Times New Roman", "serif"],
       },
       animation: {
         "fade-in-up": "fadeInUp 0.8s ease-out",

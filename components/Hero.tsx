@@ -159,7 +159,7 @@ export default function Hero() {
             variants={staggerItem}
             className="text-xl md:text-2xl text-primary-200 max-w-4xl mx-auto leading-relaxed font-light"
           >
-            Clinically-governed, in-home preventative checks for adults 45–84.
+            Clinically-governed, in-home preventative checks for adults.
             Functional tests, clear next steps, ongoing tracking.
           </motion.p>
 

@@ -6,6 +6,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap");
 
+/* Print-specific font imports for PDF compatibility */
+@media print {
+  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600;700;800;900&display=block");
+}
+
 /* The Seasons Font Face Declarations */
 @font-face {
   font-family: "The Seasons";
@@ -35,6 +40,72 @@
   font-weight: 300;
   font-style: normal;
   font-display: swap;
+}
+
+/* Print-specific styles for PDF generation */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: "Playfair Display", "Crimson Text", "Times New Roman", serif !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Playfair Display", "Crimson Text", "Times New Roman", serif !important;
+    color: black !important;
+  }
+
+  .font-seasons {
+    font-family: "Playfair Display", "Crimson Text", "Times New Roman", serif !important;
+  }
+
+  /* Ensure gradient text shows up in PDF */
+  .text-transparent {
+    background: none !important;
+    color: black !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+  }
+
+  /* Make sure backgrounds and gradients are visible */
+  .bg-gradient-to-r {
+    background: none !important;
+  }
+
+  /* Hide video backgrounds and complex animations in print */
+  video {
+    display: none !important;
+  }
+
+  /* Simplify motion elements for print */
+  .motion-reduce {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Ensure proper text contrast */
+  .text-primary-200,
+  .text-neutral-300,
+  .text-neutral-200 {
+    color: #333 !important;
+  }
+
+  /* Force visible text for all light text colors */
+  .text-primary-50,
+  .text-neutral-100 {
+    color: black !important;
+  }
 }
 
 :root {
