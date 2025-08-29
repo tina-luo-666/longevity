@@ -69,3 +69,36 @@ CREATE INDEX idx_signups_interested_in ON public.signups(interested_in);
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT INSERT ON public.signups TO anon;
 GRANT SELECT ON public.signups TO authenticated;
+
+-- Create the contact_messages table for the contact form
+CREATE TABLE public.contact_messages (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Create updated_at trigger for contact_messages
+CREATE TRIGGER set_contact_messages_updated_at
+    BEFORE UPDATE ON public.contact_messages
+    FOR EACH ROW
+    EXECUTE FUNCTION public.handle_updated_at();
+
+-- Enable Row Level Security (RLS) for contact_messages
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow inserts (for contact form)
+CREATE POLICY "Allow public contact message inserts" ON public.contact_messages
+    FOR INSERT 
+    TO public 
+    WITH CHECK (true);
+
+-- Add indexes for better performance
+CREATE INDEX idx_contact_messages_email ON public.contact_messages(email);
+CREATE INDEX idx_contact_messages_created_at ON public.contact_messages(created_at);
+
+-- Grant necessary permissions for contact_messages
+GRANT INSERT ON public.contact_messages TO anon;
+GRANT SELECT ON public.contact_messages TO authenticated;

@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import { COMPANY_INFO } from "@/lib/constants";
 import { fadeInUp, staggerContainer, staggerItem } from "@/lib/animations";
+import { submitContact } from "@/lib/supabase";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -20,6 +21,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -32,19 +34,31 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const result = await submitContact({
+        name: data.name,
+        email: data.email,
+        message: data.message,
+      });
 
-    console.log("Contact form data:", data);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    reset();
+      if (result.success) {
+        setIsSubmitted(true);
+        reset();
 
-    // Auto-hide success message after 5 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      } else {
+        setError(result.error || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      setError("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -104,10 +118,19 @@ export default function ContactForm() {
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 border border-red-200 rounded-lg p-4"
+                >
+                  <p className="text-red-600 text-sm">{error}</p>
+                </motion.div>
+              )}
               <motion.div variants={staggerItem}>
                 <label
                   htmlFor="name"
-                  className="block text-charcoal font-medium mb-2"
+                  className="block text-gray-700 font-medium mb-2"
                 >
                   Name *
                 </label>
@@ -115,7 +138,7 @@ export default function ContactForm() {
                   {...register("name")}
                   type="text"
                   id="name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                  className="w-full text-gray-800 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                   placeholder="Your full name"
                 />
                 {errors.name && (
@@ -128,7 +151,7 @@ export default function ContactForm() {
               <motion.div variants={staggerItem}>
                 <label
                   htmlFor="email"
-                  className="block text-charcoal font-medium mb-2"
+                  className="block text-gray-700 font-medium mb-2"
                 >
                   Email *
                 </label>
@@ -136,7 +159,7 @@ export default function ContactForm() {
                   {...register("email")}
                   type="email"
                   id="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                  className="w-full text-gray-800 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                   placeholder="your.email@example.com"
                 />
                 {errors.email && (
@@ -149,7 +172,7 @@ export default function ContactForm() {
               <motion.div variants={staggerItem}>
                 <label
                   htmlFor="message"
-                  className="block text-charcoal font-medium mb-2"
+                  className="block text-gray-700 font-medium mb-2"
                 >
                   Message *
                 </label>
@@ -157,7 +180,7 @@ export default function ContactForm() {
                   {...register("message")}
                   id="message"
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 resize-none"
+                  className="w-full text-gray-800 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 resize-none"
                   placeholder="How can we help you?"
                 />
                 {errors.message && (

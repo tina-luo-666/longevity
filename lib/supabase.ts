@@ -17,6 +17,15 @@ export interface SignupData {
   updated_at?: string;
 }
 
+export interface ContactData {
+  id?: string;
+  name: string;
+  email: string;
+  message: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // API functions for signup operations
 export async function submitSignup(
   data: Omit<SignupData, "id" | "created_at" | "updated_at">
@@ -95,5 +104,39 @@ export async function getSignupStats() {
       console.error("Error getting signup stats:", error);
     }
     return { success: false, count: 0 };
+  }
+}
+
+// API functions for contact form operations
+export async function submitContact(
+  data: Omit<ContactData, "id" | "created_at" | "updated_at">
+) {
+  try {
+    const { data: result, error } = await supabase
+      .from("contact_messages")
+      .insert([
+        {
+          name: data.name,
+          email: data.email,
+          message: data.message,
+        },
+      ])
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return { success: true, data: result };
+  } catch (error) {
+    // Log error in development only
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error submitting contact message:", error);
+    }
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "An unknown error occurred",
+    };
   }
 }
